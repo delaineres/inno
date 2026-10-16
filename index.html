@@ -1,0 +1,684 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Innotravel — экскурсии по Казани и Иннополису</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f5f1; --card:#fff; --ink:#14171f; --mute:#6b6e76; --line:#e4e2dc;
+  --blue:#2f5bff; --blue-soft:#e8edff; --orange:#ff6b3d; --orange-soft:#ffece4; --dark:#14171f;
+  --r:22px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Manrope,system-ui,sans-serif}
+a{color:inherit;text-decoration:none}
+h1,h2,h3{font-family:Unbounded,Manrope,sans-serif;line-height:1.15;margin:0}
+h1{font-size:clamp(32px,5.4vw,64px);font-weight:700;letter-spacing:-.02em}
+h2{font-size:clamp(26px,3.4vw,40px);font-weight:700;letter-spacing:-.01em}
+h3{font-size:19px;font-weight:500}
+p{margin:0}
+.wrap{max-width:1200px;margin:0 auto;padding:0 20px}
+section{padding:72px 0}
+.eyebrow{display:inline-block;font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--blue);margin-bottom:14px}
+.sub{color:var(--mute);font-size:17px;max-width:620px;margin-top:14px}
+.btn{display:inline-flex;align-items:center;gap:8px;border:0;border-radius:99px;padding:14px 24px;font:600 15px Manrope;cursor:pointer;transition:.2s}
+.btn-blue{background:var(--blue);color:#fff}.btn-blue:hover{background:#1f45e0}
+.btn-orange{background:var(--orange);color:#fff}.btn-orange:hover{background:#ec5626}
+.btn-line{background:transparent;border:1.5px solid var(--ink);color:var(--ink)}.btn-line:hover{background:var(--ink);color:#fff}
+.btn-white{background:#fff;color:var(--ink)}
+.ph{position:relative;border-radius:var(--r);overflow:hidden;background:linear-gradient(135deg,#c9d4ff,#ffd5c4)}
+.ph::after{content:attr(data-label);position:absolute;left:14px;bottom:12px;font-size:12px;font-weight:600;color:rgba(20,23,31,.55);background:rgba(255,255,255,.6);padding:3px 9px;border-radius:99px}
+.ph.k1{background:linear-gradient(135deg,#bcd3ff,#e9dcff)}
+.ph.k2{background:linear-gradient(135deg,#ffd9c7,#ffefb8)}
+.ph.k3{background:linear-gradient(135deg,#c6ecd9,#cfe0ff)}
+.ph.k4{background:linear-gradient(135deg,#e2d4ff,#ffd2dc)}
+.ph.k5{background:linear-gradient(135deg,#ffe3b8,#ffc9b3)}
+
+/* header */
+header{position:sticky;top:0;z-index:50;background:rgba(246,245,241,.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.hd{display:flex;align-items:center;gap:28px;height:72px}
+.logo{font-family:Unbounded;font-weight:700;font-size:20px;display:flex;align-items:center;gap:8px}
+.logo i{width:28px;height:28px;border-radius:8px;background:var(--blue);display:inline-block;position:relative}
+.logo i::after{content:"";position:absolute;inset:8px;border-radius:50%;background:var(--orange)}
+nav.main{display:flex;gap:24px;font-weight:600;font-size:15px}
+nav.main a{padding:6px 0;border-bottom:2px solid transparent}
+nav.main a.on,nav.main a:hover{border-color:var(--blue)}
+.hd-right{margin-left:auto;display:flex;align-items:center;gap:18px}
+.phone{font-weight:700;white-space:nowrap}
+.phone small{display:block;font-weight:500;font-size:12px;color:var(--mute)}
+.burger{display:none;margin-left:auto;background:none;border:0;font-size:26px;cursor:pointer}
+.drop{position:relative}
+.drop-menu{display:none;position:absolute;top:100%;left:-16px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:8px;min-width:220px;box-shadow:0 10px 30px rgba(0,0,0,.08)}
+.drop:hover .drop-menu{display:block}
+.drop-menu a{display:block;padding:10px 12px;border-radius:10px;border:0!important}
+.drop-menu a:hover{background:var(--bg)}
+
+/* hero */
+.hero{padding:48px 0 32px}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:32px;align-items:stretch}
+.hero h1 span{color:var(--blue)}
+.socials{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
+.soc{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border-radius:99px;background:#fff;border:1px solid var(--line);font-weight:600;font-size:14px}
+.soc b{width:10px;height:10px;border-radius:50%}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+.hero .ph{min-height:420px}
+.hours{margin-top:18px;color:var(--mute);font-size:14px}
+
+/* quick tiles */
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.tile{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:22px;min-height:150px;display:flex;flex-direction:column;justify-content:space-between;transition:.2s}
+.tile:hover{transform:translateY(-3px);border-color:var(--ink)}
+.tile .arr{width:38px;height:38px;border-radius:50%;background:var(--bg);display:grid;place-items:center;align-self:flex-end;font-size:18px}
+.tile.dark{background:var(--dark);color:#fff;border-color:var(--dark)}
+.tile.dark .arr{background:rgba(255,255,255,.12)}
+
+/* directions */
+.dirs{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:36px}
+.dir{position:relative;border-radius:var(--r);overflow:hidden;min-height:380px;display:flex;align-items:flex-end;color:#fff}
+.dir .ph{position:absolute;inset:0;border-radius:0}
+.dir .ph::after{top:14px;bottom:auto}
+.dir-body{position:relative;padding:28px;width:100%;background:linear-gradient(transparent,rgba(10,12,20,.75))}
+.dir-body p{opacity:.85;margin:8px 0 18px;max-width:420px}
+
+/* stats */
+.stats{background:var(--dark);color:#fff;border-radius:32px;padding:48px;display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.stat b{font-family:Unbounded;font-size:clamp(30px,3.6vw,46px);display:block;color:#fff}
+.stat span{color:rgba(255,255,255,.65);font-size:15px}
+
+/* video + form */
+.vf{display:grid;grid-template-columns:1.2fr .8fr;gap:24px}
+.video{min-height:440px;display:grid;place-items:center}
+.play{width:88px;height:88px;border-radius:50%;background:#fff;display:grid;place-items:center;box-shadow:0 10px 40px rgba(0,0,0,.15);cursor:pointer;position:relative;z-index:1}
+.play::before{content:"";border-left:24px solid var(--ink);border-top:15px solid transparent;border-bottom:15px solid transparent;margin-left:6px}
+.form-card{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:30px}
+.form-card h3{font-size:22px;margin-bottom:6px}
+form{display:grid;gap:12px;margin-top:20px}
+input,select,textarea{width:100%;padding:14px 16px;border:1px solid var(--line);border-radius:14px;font:15px Manrope;background:var(--bg);color:var(--ink)}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--blue);outline-offset:-1px;background:#fff}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.check{display:flex;gap:10px;font-size:13px;color:var(--mute);align-items:flex-start}
+.check input{width:auto;margin-top:3px}
+.check a{text-decoration:underline}
+
+/* custom tour */
+.custom{background:var(--blue);color:#fff;border-radius:32px;padding:56px;display:grid;grid-template-columns:1.2fr .8fr;gap:32px;align-items:center}
+.custom h2{color:#fff}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.chip{padding:9px 16px;border-radius:99px;background:rgba(255,255,255,.15);font-weight:600;font-size:14px}
+
+/* reviews */
+.revs{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:36px}
+.rev{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:26px;display:flex;flex-direction:column;gap:16px}
+.rev .who{display:flex;gap:12px;align-items:center}
+.ava{width:44px;height:44px;border-radius:50%;background:var(--orange-soft);display:grid;place-items:center;font-weight:700;color:var(--orange)}
+.rev .who small{display:block;color:var(--mute)}
+.stars{color:var(--orange);letter-spacing:2px}
+.sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap}
+
+/* faq */
+.faq{margin-top:32px;display:grid;gap:10px}
+details{background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px 24px}
+summary{font-weight:700;font-size:17px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:16px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-size:24px;line-height:1;color:var(--blue);transition:.2s}
+details[open] summary::after{transform:rotate(45deg)}
+details p{margin-top:12px;color:var(--mute)}
+
+/* cards generic */
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:36px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:36px}
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:22px;display:flex;flex-direction:column;gap:12px}
+.card .ph{height:190px;margin:-8px -8px 4px}
+.meta{display:flex;gap:8px;flex-wrap:wrap}
+.meta span{font-size:13px;font-weight:600;padding:4px 10px;border-radius:99px;background:var(--bg)}
+.price{font-family:Unbounded;font-size:20px;font-weight:500;margin-top:auto}
+.card .btn{align-self:flex-start}
+.muted{color:var(--mute)}
+
+/* program steps */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:36px}
+.step{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:26px}
+.step .n{font-family:Unbounded;font-size:40px;color:var(--blue);opacity:.35}
+.step h3{margin:10px 0 8px}
+
+/* prices */
+.prices{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:36px}
+.pr{border-radius:var(--r);padding:30px;background:#fff;border:1px solid var(--line);display:flex;flex-direction:column;gap:12px}
+.pr.hl{background:var(--dark);color:#fff;border-color:var(--dark)}
+.pr.hl .muted{color:rgba(255,255,255,.65)}
+.pr .big{font-family:Unbounded;font-size:34px;font-weight:700}
+.pr .btn{margin-top:auto;align-self:flex-start}
+
+/* page hero */
+.phero{padding:48px 0 24px}
+.phero-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center}
+.phero .ph{min-height:360px}
+.crumbs{font-size:14px;color:var(--mute);margin-bottom:20px}
+.crumbs a{text-decoration:underline}
+.badge{display:inline-block;margin-top:18px;font-size:13px;padding:6px 12px;border-radius:99px;background:#fff;border:1px solid var(--line);color:var(--mute)}
+
+/* placeholder text */
+.todo{background:#fff6c9;border-radius:6px;padding:0 5px}
+
+/* about */
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:36px}
+.fact{border-radius:var(--r);padding:28px;background:var(--blue-soft)}
+.fact:nth-child(2){background:var(--orange-soft)}
+.fact:nth-child(3){background:#e5f4ec}
+.fact h3{margin-bottom:10px}
+
+/* lead banner */
+.lead-banner{background:#fff;border:1px solid var(--line);border-radius:32px;padding:44px;display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center}
+.lead-banner form{margin:0;grid-template-columns:1fr auto}
+
+/* footer */
+footer{background:var(--dark);color:#fff;padding:64px 0 32px;margin-top:40px}
+.ft{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:32px}
+.ft h4{font-size:14px;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.5);margin:0 0 14px}
+.ft a,.ft p{display:block;margin-bottom:8px;color:rgba(255,255,255,.85)}
+.ft a:hover{color:#fff}
+.ft .phone-big{font-family:Unbounded;font-size:22px;margin-bottom:12px;color:#fff}
+.ft-bottom{border-top:1px solid rgba(255,255,255,.12);margin-top:40px;padding-top:24px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-size:13px;color:rgba(255,255,255,.5)}
+
+/* modal */
+.modal{position:fixed;inset:0;background:rgba(10,12,20,.55);display:none;align-items:center;justify-content:center;z-index:100;padding:16px}
+.modal.open{display:flex}
+.modal-box{background:#fff;border-radius:26px;padding:34px;width:100%;max-width:460px;position:relative;max-height:92vh;overflow:auto}
+.x{position:absolute;top:16px;right:16px;width:38px;height:38px;border-radius:50%;border:0;background:var(--bg);font-size:20px;cursor:pointer}
+.ok{display:none;text-align:center;padding:20px 0}
+.ok b{font-family:Unbounded;font-size:22px;display:block;margin-bottom:8px}
+
+/* pages */
+.page{display:none}
+.page.on{display:block}
+
+/* draft flag */
+.draft{position:fixed;left:16px;bottom:16px;z-index:60;background:var(--orange);color:#fff;font-size:12px;font-weight:700;padding:6px 12px;border-radius:99px;letter-spacing:.04em}
+
+/* responsive */
+@media (max-width:980px){
+  .tiles{grid-template-columns:1fr 1fr!important}
+  nav.main,.hd-right .phone{display:none}
+  .burger{display:block}
+  .hd-right{margin-left:0}
+  nav.main.open{display:flex;flex-direction:column;position:absolute;top:72px;left:0;right:0;background:var(--bg);padding:20px;border-bottom:1px solid var(--line);gap:14px}
+  nav.main.open .drop-menu{display:block;position:static;border:0;box-shadow:none;padding:4px 0 0 12px;background:none}
+  .hero-grid,.phero-grid,.vf,.custom,.lead-banner,.dirs{grid-template-columns:1fr}
+  .tiles,.grid4{grid-template-columns:1fr 1fr}
+  .stats{grid-template-columns:1fr 1fr;padding:32px}
+  .revs,.grid3,.steps,.prices,.facts{grid-template-columns:1fr}
+  .ft{grid-template-columns:1fr 1fr}
+  .hero .ph{min-height:260px}
+  .custom{padding:36px}
+}
+@media (max-width:560px){
+  section{padding:52px 0}
+  .tiles,.grid4,.ft,.row2{grid-template-columns:1fr}
+  .stats{grid-template-columns:1fr 1fr;gap:20px;padding:26px}
+  .lead-banner{padding:26px}
+  .lead-banner form{grid-template-columns:1fr}
+  .hd-right .btn{display:none}
+}
+</style>
+<style>
+.tabs-dir{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px}
+.tabs-dir a{padding:10px 18px;border-radius:99px;background:#fff;border:1px solid var(--line);font-weight:600;font-size:14px}
+.tabs-dir a:hover{border-color:var(--ink)}
+.exc-block{margin-top:56px;padding-top:40px;border-top:1px solid var(--line)}
+.exc-block:first-of-type{border-top:0;padding-top:0}
+.exc-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap}
+.exc-head h3{font-family:Unbounded;font-size:clamp(22px,2.6vw,30px);font-weight:700}
+.tariff{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:26px;display:flex;flex-direction:column;gap:12px}
+.tariff.hl{border:2px solid var(--blue)}
+.tariff .lbl{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--blue)}
+.tariff ul{margin:0;padding-left:18px;color:var(--mute);font-size:15px}
+.tariff ul li{margin:3px 0}
+.group-strip{margin-top:18px;background:var(--dark);color:#fff;border-radius:var(--r);padding:26px 30px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+.group-strip p{opacity:.7;margin-top:4px}
+.opt-col{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:26px}
+.opt-col h3{font-family:Unbounded;font-size:20px;margin-bottom:16px}
+.opt-item{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px dashed var(--line);font-size:15px}
+.opt-item:last-child{border:0}
+.opt-item b{white-space:nowrap}
+.tours5{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:36px}
+.tours5 .card .ph{height:150px}
+@media (max-width:1100px){.tours5{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:980px){.tours5{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.tours5{grid-template-columns:1fr}}
+.todo{background:#fff1b8;border-radius:6px;padding:0 5px;color:#7a5b00}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap hd">
+    <a href="#/" class="logo"><i></i>Innotravel</a>
+    <nav class="main" id="nav">
+      <div class="drop"><a href="#/#excursions" data-nav="excursions">Экскурсии ▾</a>
+        <div class="drop-menu"><a href="#/innopolis">По Иннополису</a><a href="#/kazan">По Казани</a><a href="#/sviyazhsk">По Свияжску</a></div>
+      </div>
+      <a href="#/#options">Доп. опции</a>
+      <a href="#/#reviews">Отзывы</a>
+      <a href="#/agencies" data-nav="agencies">Агентствам</a>
+    </nav>
+    <div class="hd-right">
+      <a class="phone" href="tel:+79600484460">+7 960 048-44-60<small>ежедневно 9:00–18:00</small></a>
+      <button class="btn btn-blue" data-book>Забронировать</button>
+    </div>
+    <button class="burger" id="burger" aria-label="Меню">☰</button>
+  </div>
+</header>
+
+<!-- ==================== ГЛАВНАЯ (лендинг по ТЗ) ==================== -->
+<main class="page" id="p-home">
+
+  <div class="hero"><div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow">Туроператор · Татарстан</span>
+      <h1>Innotravel — экскурсии по <span>Иннополису</span> и <span>Казани</span></h1>
+      <p class="sub">Сборные и индивидуальные экскурсии, IT-мастер-классы и туры под ключ. Онлайн-запись за 3 минуты.</p>
+      <div class="hero-cta">
+        <button class="btn btn-blue" data-book>Забронировать онлайн</button>
+        <button class="btn btn-line" data-contact>Связаться</button>
+      </div>
+      <p class="hours">Работаем ежедневно с 9:00 до 18:00 · <a href="tel:+79600484460"><b>+7 960 048-44-60</b></a></p>
+    </div>
+    <div class="ph k1" data-label="Фото: Иннополис + Казань"></div>
+  </div></div>
+
+  <section style="padding-top:16px"><div class="wrap">
+    <div class="tiles">
+      <a class="tile dark" href="#/#excursions"><h3>Экскурсии</h3><span class="arr">→</span></a>
+      <a class="tile" href="#/#options"><h3>Доп. опции</h3><span class="arr">→</span></a>
+      <a class="tile" href="#/#reviews"><h3>Отзывы</h3><span class="arr">→</span></a>
+      <a class="tile" href="#/agencies"><h3>Агентствам</h3><span class="arr">→</span></a>
+    </div>
+  </div></section>
+
+  <section style="padding-top:16px"><div class="wrap">
+    <div class="stats">
+      <div class="stat"><b>XX XXX</b><span>гостей</span></div>
+      <div class="stat"><b>X лет</b><span>работаем</span></div>
+      <div class="stat"><b>XXX</b><span>положительных отзывов</span></div>
+      <div class="stat"><b>XX</b><span>сотрудников</span></div>
+    </div>
+  </div></section>
+
+  <section><div class="wrap vf">
+    <div class="ph video k3" data-label="Промо-ролик"><span class="play" aria-label="Смотреть ролик"></span></div>
+    <div class="form-card">
+      <span class="eyebrow">Заявка</span>
+      <h3>Подберём экскурсию под вас</h3>
+      <p class="muted">Оставьте контакты — менеджер перезвонит в течение рабочего дня</p>
+      <form data-form>
+        <input placeholder="Ваше имя" required>
+        <input type="tel" placeholder="+7 (___) ___-__-__" required>
+        <div class="row2">
+          <select><option>Иннополис</option><option>Казань</option><option>Свияжск</option><option>Тур</option></select>
+          <input type="number" min="1" placeholder="Человек">
+        </div>
+        <input type="date">
+        <label class="check"><input type="checkbox" checked required>Я согласен(а) с <a href="#">политикой конфиденциальности</a></label>
+        <button class="btn btn-orange" type="submit">Отправить заявку</button>
+      </form>
+    </div>
+  </div></section>
+
+  <!-- ЭКСКУРСИИ -->
+  <section id="excursions" style="padding-top:0"><div class="wrap">
+    <span class="eyebrow">Экскурсии</span>
+    <h2>Выберите направление</h2>
+    <div class="tabs-dir"><a href="#/#exc-inno">Иннополис</a><a href="#/#exc-kzn">Казань</a><a href="#/#exc-sv">Свияжск</a></div>
+
+    <!-- Иннополис -->
+    <div class="exc-block" id="exc-inno">
+      <div class="exc-head"><div><span class="eyebrow">Иннополис</span><h3>Город, где будущее уже стало реальностью</h3></div><a class="btn btn-line" href="#/innopolis">Подробнее об Иннополисе →</a></div>
+      <div class="grid3">
+        <div class="tariff"><span class="lbl">Мини</span><span class="big price" style="margin:0">от <span class="todo">X XXX</span> ₽</span><p class="muted">Объекты из презентации:</p><ul><li><span class="todo">объект</span></li><li><span class="todo">объект</span></li></ul><button class="btn btn-line" data-book="Иннополис · Мини">Забронировать</button></div>
+        <div class="tariff"><span class="lbl">Лайт</span><span class="big price" style="margin:0">от <span class="todo">X XXX</span> ₽</span><p class="muted">Объекты из презентации:</p><ul><li><span class="todo">объект</span></li><li><span class="todo">объект</span></li><li><span class="todo">объект</span></li></ul><button class="btn btn-line" data-book="Иннополис · Лайт">Забронировать</button></div>
+        <div class="tariff hl"><span class="lbl">Стандарт</span><span class="big price" style="margin:0">от <span class="todo">X XXX</span> ₽</span><p class="muted">Университет «Иннополис», студенческое общежитие, Технопарк им. А. С. Попова</p><ul><li>1 час 30 минут</li><li><span class="todo">+ объекты из презентации</span></li></ul><button class="btn btn-blue" data-book="Иннополис · Стандарт">Забронировать</button></div>
+      </div>
+      <div class="group-strip">
+        <div><h3 style="font-size:20px">Сборные групповые экскурсии</h3><p>Программа «Стандарт» · от 600 ₽ за человека · запись закрывается за час до начала</p></div>
+        <button class="btn btn-orange" data-book="Иннополис · сборная группа">Запись онлайн</button>
+      </div>
+    </div>
+
+    <!-- Казань -->
+    <div class="exc-block" id="exc-kzn">
+      <div class="exc-head"><div><span class="eyebrow">Казань</span><h3>Экскурсии по Казани</h3></div><a class="btn btn-line" href="#/kazan">Все экскурсии по Казани →</a></div>
+      <div class="grid4">
+        <div class="card"><div class="ph k2" data-label="Фото: Кремль" style="height:150px"></div><h3>Казанский Кремль</h3><p class="muted">Объект наследия ЮНЕСКО: красота, тайны и история крепости</p><span class="price">5 000 ₽</span><button class="btn btn-blue" data-book="Казанский Кремль">Забронировать</button></div>
+        <div class="card"><div class="ph k3" data-label="Фото: СТС" style="height:150px"></div><h3>Старо-Татарская слобода</h3><p class="muted">Более 70 памятников наследия на берегу озера Нижний Кабан</p><span class="price">5 000 ₽</span><button class="btn btn-blue" data-book="Старо-Татарская слобода">Забронировать</button></div>
+        <div class="card"><div class="ph k5" data-label="Фото" style="height:150px"></div><h3><span class="todo">ИТ … (уточнить)</span></h3><p class="muted"><span class="todo">Описание</span></p><span class="price"><span class="todo">X XXX</span> ₽</span><button class="btn btn-blue" data-book>Забронировать</button></div>
+        <div class="card"><div class="ph k4" data-label="Фото: музеи КФУ" style="height:150px"></div><h3>Комплекс музеев КФУ</h3><p class="muted"><span class="todo">Описание</span></p><span class="price"><span class="todo">X XXX</span> ₽</span><button class="btn btn-blue" data-book="Музеи КФУ">Забронировать</button></div>
+      </div>
+    </div>
+
+    <!-- Свияжск -->
+    <div class="exc-block" id="exc-sv">
+      <div class="exc-head"><div><span class="eyebrow">Свияжск</span><h3>Остров-град Свияжск</h3></div><a class="btn btn-line" href="#/sviyazhsk">Подробнее о Свияжске →</a></div>
+      <div class="grid3" style="grid-template-columns:1fr 1fr">
+        <div class="card" style="flex-direction:row;gap:20px"><div class="ph k4" data-label="Фото" style="height:auto;min-height:160px;width:42%;margin:0;flex-shrink:0"></div><div style="display:flex;flex-direction:column;gap:10px"><h3>Обзорная экскурсия</h3><p class="muted">Крепость 1551 года, панорамные виды, древние монастыри</p><span class="price">от <span class="todo">X XXX</span> ₽</span><button class="btn btn-blue" data-book="Свияжск · обзорная">Забронировать</button></div></div>
+        <div class="card" style="flex-direction:row;gap:20px"><div class="ph k5" data-label="Фото" style="height:auto;min-height:160px;width:42%;margin:0;flex-shrink:0"></div><div style="display:flex;flex-direction:column;gap:10px"><h3>Экскурсии в музеях</h3><p class="muted"><span class="todo">Под вопросом — уточнить у заказчика</span></p><span class="price">от <span class="todo">X XXX</span> ₽</span><button class="btn btn-blue" data-book="Свияжск · музеи">Забронировать</button></div></div>
+      </div>
+    </div>
+  </div></section>
+
+  <!-- ДОП. ОПЦИИ -->
+  <section id="options" style="padding-top:0"><div class="wrap">
+    <span class="eyebrow">Доп. опции</span>
+    <h2>Добавьте к экскурсии</h2>
+    <div class="grid3" style="grid-template-columns:1fr 1fr">
+      <div class="opt-col"><h3>Иннополис</h3>
+        <div class="opt-item"><span>Умные устройства · 12+</span><b>от 1 200 ₽</b></div>
+        <div class="opt-item"><span>Черепашья графика · 8+</span><b>от 1 000 ₽</b></div>
+        <div class="opt-item"><span>Чат-бот для Telegram · 14+</span><b>от 1 000 ₽</b></div>
+        <div class="opt-item"><span>Голосовой ассистент · 12+</span><b>от 1 000 ₽</b></div>
+        <div class="opt-item"><span>Разработка игр · 13+</span><b>от 700 ₽</b></div>
+        <div class="opt-item"><span>Игра «Кодовое слово» · 8–12</span><b>от 800 ₽</b></div>
+        <div class="opt-item"><span>Лазертаг · 12+</span><b>от 1 300 ₽</b></div>
+        <div class="opt-item"><span>Квест</span><b>от 500 ₽</b></div>
+        <div class="opt-item"><span>Проживание</span><b>от 2 500 ₽</b></div>
+        <div class="opt-item"><span>Обед</span><b>от 550 ₽</b></div>
+      </div>
+      <div class="opt-col"><h3>Казань</h3>
+        <p class="muted" style="margin-bottom:10px">Соберём под вашу программу</p>
+        <div class="opt-item"><span>Трансфер</span><b><span class="todo">от …</span></b></div>
+        <div class="opt-item"><span>Мастер-классы</span><b><span class="todo">от …</span></b></div>
+        <div class="opt-item"><span>Национальные обеды и ужины</span><b><span class="todo">от …</span></b></div>
+        <div class="opt-item"><span>Проживание</span><b><span class="todo">от …</span></b></div>
+        <button class="btn btn-line" style="margin-top:14px" data-contact>Уточнить у менеджера</button>
+      </div>
+    </div>
+  </div></section>
+
+  <!-- ОТЗЫВЫ -->
+  <section id="reviews" style="padding-top:0"><div class="wrap">
+    <div class="sec-head"><div><span class="eyebrow">Отзывы</span><h2>Что о нас говорят</h2></div><a class="btn btn-line" href="https://feed.myreviews.ru/54787">Оставить отзыв</a></div>
+    <div class="revs">
+      <div class="rev"><div class="stars">★★★★★</div><p>Ездили в тур с классом. Всё очень понравилось, экскурсоводы отличные, менеджер сопровождала нас везде и была на связи 24/7. Обязательно вернёмся!</p><div class="who"><span class="ava">Р</span><div><b>Рената</b><small>Королёв</small></div></div></div>
+      <div class="rev"><div class="stars">★★★★★</div><p>Экскурсия оказалась невероятно увлекательной. Гид рассказывал интересные факты и легенды — удалось глубже погрузиться в историю и культуру Казани.</p><div class="who"><span class="ava">А</span><div><b>Анастасия</b><small>Санкт-Петербург</small></div></div></div>
+      <div class="rev"><div class="stars">★★★★★</div><p>Были в Казани не раз, но экскурсия нас поразила: столько удивительных фактов и такая увлекательная манера изложения!</p><div class="who"><span class="ava">Н</span><div><b>Наргиза</b><small>Уфа</small></div></div></div>
+    </div>
+  </div></section>
+
+  <!-- ВОПРОСЫ -->
+  <section style="padding-top:0"><div class="wrap" style="max-width:900px">
+    <span class="eyebrow">Вопросы <span class="todo" style="text-transform:none;letter-spacing:0">блок под вопросом</span></span>
+    <h2>Отвечаем на вопросы</h2>
+    <div class="faq">
+      <details open><summary>Где начинается экскурсия?</summary><p>В Иннополисе — в холле Университета Иннополис. Для Казани и Свияжска место встречи сообщаем при бронировании.</p></details>
+      <details><summary>Есть ли скидки для детей?</summary><p>Да, для детей и школьников действуют отдельные цены.</p></details>
+      <details><summary>Можно ли переночевать в городе?</summary><p>Да, организуем проживание и питание — смотрите доп. опции.</p></details>
+      <details><summary>Как забронировать?</summary><p>Онлайн через кнопку «Забронировать» или через менеджера в мессенджерах и по телефону.</p></details>
+    </div>
+  </div></section>
+</main>
+
+<!-- ==================== ИННОПОЛИС ==================== -->
+<main class="page" id="p-innopolis">
+  <div class="phero"><div class="wrap phero-grid">
+    <div>
+      <div class="crumbs"><a href="#/">Главная</a> / Экскурсии по Иннополису</div>
+      <span class="eyebrow">Иннополис</span>
+      <h1>Экскурсии по Иннополису</h1>
+      <p class="sub">Город, где будущее уже стало реальностью: инфраструктура, жизнь горожан и советы, что ещё посмотреть и где вкусно поесть.</p>
+      <div class="hero-cta"><button class="btn btn-blue" data-book="Иннополис">Забронировать онлайн</button><button class="btn btn-line" data-contact>Связаться</button></div>
+    </div>
+    <div class="ph k1" data-label="Фото: Иннополис"></div>
+  </div></div>
+
+  <section><div class="wrap">
+    <span class="eyebrow">Форматы</span>
+    <h2>Мини, Лайт или Стандарт</h2>
+    <div class="grid3">
+      <div class="tariff"><span class="lbl">Мини</span><span class="big price" style="margin:0">от <span class="todo">X XXX</span> ₽</span><ul><li><span class="todo">объекты из презентации</span></li></ul><button class="btn btn-line" data-book="Иннополис · Мини">Забронировать</button></div>
+      <div class="tariff"><span class="lbl">Лайт</span><span class="big price" style="margin:0">от <span class="todo">X XXX</span> ₽</span><ul><li><span class="todo">объекты из презентации</span></li></ul><button class="btn btn-line" data-book="Иннополис · Лайт">Забронировать</button></div>
+      <div class="tariff hl"><span class="lbl">Стандарт</span><span class="big price" style="margin:0">от <span class="todo">X XXX</span> ₽</span><ul><li>Университет «Иннополис»</li><li>Студенческое общежитие</li><li>Технопарк им. А. С. Попова</li></ul><button class="btn btn-blue" data-book="Иннополис · Стандарт">Забронировать</button></div>
+    </div>
+    <div class="group-strip"><div><h3 style="font-size:20px">Сборные групповые экскурсии</h3><p>Программа «Стандарт» · от 600 ₽ за человека</p></div><button class="btn btn-orange" data-book="Иннополис · сборная группа">Запись онлайн</button></div>
+  </div></section>
+
+  <section style="padding-top:0"><div class="wrap">
+    <span class="eyebrow">Программа «Стандарт»</span>
+    <h2>Маршрут</h2>
+    <div class="steps">
+      <div class="step"><span class="n">01</span><h3>Университет «Иннополис»</h3><p class="muted">Первый в России университет, специализирующийся на IT и робототехнике. Здесь встречаемся с экскурсоводом.</p></div>
+      <div class="step"><span class="n">02</span><h3>Студенческое общежитие</h3><p class="muted">Заглянем в комнату общежития и почувствуем себя студентом.</p></div>
+      <div class="step"><span class="n">03</span><h3>Технопарк им. А. С. Попова</h3><p class="muted">Ключевой объект бизнес-инфраструктуры ОЭЗ «Иннополис» и предсказание от жителей города.</p></div>
+    </div>
+  </div></section>
+
+  <section style="padding-top:0"><div class="wrap">
+    <span class="eyebrow">Доп. опции</span>
+    <h2>IT-мастер-классы и активности</h2>
+    <div class="grid4">
+      <div class="card"><h3>Умные устройства</h3><div class="meta"><span>~1,5 ч</span><span>12+</span></div><span class="price">от 1 200 ₽</span></div>
+      <div class="card"><h3>Черепашья графика</h3><div class="meta"><span>~1 ч</span><span>8+</span></div><span class="price">от 1 000 ₽</span></div>
+      <div class="card"><h3>Чат-бот для Telegram</h3><div class="meta"><span>~1 ч</span><span>14+</span></div><span class="price">от 1 000 ₽</span></div>
+      <div class="card"><h3>Голосовой ассистент</h3><div class="meta"><span>1 ч</span><span>12+</span></div><span class="price">от 1 000 ₽</span></div>
+      <div class="card"><h3>Разработка игр</h3><div class="meta"><span>1 ч</span><span>13+</span></div><span class="price">от 700 ₽</span></div>
+      <div class="card"><h3>Игра «Кодовое слово»</h3><div class="meta"><span>1,5 ч</span><span>8–12 лет</span></div><span class="price">от 800 ₽</span></div>
+      <div class="card"><h3>Лазертаг</h3><div class="meta"><span>1 ч</span><span>12+</span></div><span class="price">от 1 300 ₽</span></div>
+      <div class="card"><h3>Проживание и обед</h3><div class="meta"><span>обед от 550 ₽</span></div><span class="price">от 2 500 ₽</span></div>
+    </div>
+  </div></section>
+</main>
+
+<!-- ==================== КАЗАНЬ ==================== -->
+<main class="page" id="p-kazan">
+  <div class="phero"><div class="wrap phero-grid">
+    <div>
+      <div class="crumbs"><a href="#/">Главная</a> / Экскурсии по Казани</div>
+      <span class="eyebrow">Казань</span>
+      <h1>Экскурсии по Казани</h1>
+      <p class="sub">Главные места города с профессиональными гидами: история, легенды и национальный колорит.</p>
+      <div class="hero-cta"><button class="btn btn-blue" data-book="Казань">Забронировать онлайн</button><button class="btn btn-line" data-contact>Связаться</button></div>
+      <span class="badge">Реестровый номер туроператора: B031-00161-00/03404932</span>
+    </div>
+    <div class="ph k2" data-label="Фото: Казань"></div>
+  </div></div>
+
+  <section><div class="wrap">
+    <span class="eyebrow">Программы</span>
+    <h2>Фото, описание и цены</h2>
+    <div class="grid3">
+      <div class="card"><div class="ph k2" data-label="Фото: Кремль"></div><h3>Казанский Кремль</h3><p class="muted">Объект всемирного наследия ЮНЕСКО. А вы знали, что изначально крепость называли Керман?</p><div class="meta"><span>⏱ 1,5 ч</span><span>1–5 чел.</span></div><span class="price">5 000 ₽</span><button class="btn btn-blue" data-book="Казанский Кремль">Забронировать</button></div>
+      <div class="card"><div class="ph k3" data-label="Фото: СТС"></div><h3>Старо-Татарская слобода</h3><p class="muted">Мечети и купеческие особняки XIX века на берегу озера Нижний Кабан.</p><div class="meta"><span>⏱ 1,5 ч</span><span>1–5 чел.</span></div><span class="price">5 000 ₽</span><button class="btn btn-blue" data-book="Старо-Татарская слобода">Забронировать</button></div>
+      <div class="card"><div class="ph k5" data-label="Фото"></div><h3><span class="todo">ИТ … (уточнить)</span></h3><p class="muted"><span class="todo">Описание</span></p><span class="price"><span class="todo">X XXX</span> ₽</span><button class="btn btn-blue" data-book>Забронировать</button></div>
+      <div class="card"><div class="ph k4" data-label="Фото: музеи КФУ"></div><h3>Комплекс музеев КФУ</h3><p class="muted"><span class="todo">Описание</span></p><span class="price"><span class="todo">X XXX</span> ₽</span><button class="btn btn-blue" data-book="Музеи КФУ">Забронировать</button></div>
+      <div class="card"><div class="ph k1" data-label="Фото: Баумана"></div><h3>Улица Баумана</h3><p class="muted">Самая популярная улица города в самом сердце Казани. <span class="todo">оставляем?</span></p><div class="meta"><span>⏱ 1,5 ч</span></div><span class="price">5 000 ₽</span><button class="btn btn-blue" data-book="Улица Баумана">Забронировать</button></div>
+      <div class="card"><div class="ph k3" data-label="Фото: центр"></div><h3>Исторический центр</h3><p class="muted">Пешая прогулка от Баумана до Кремля. <span class="todo">оставляем?</span></p><div class="meta"><span>⏱ 1,5 ч</span><span>группы от 10</span></div><span class="price">от 1 300 ₽</span><button class="btn btn-blue" data-book="Исторический центр">Забронировать</button></div>
+    </div>
+  </div></section>
+
+  <section style="padding-top:0"><div class="wrap">
+    <div class="custom"><div><h2>Доп. опции в Казани</h2><p style="opacity:.85;margin-top:14px">Трансфер, мастер-классы, национальные обеды и ужины — добавим к любой экскурсии.</p></div><div><button class="btn btn-white" data-contact>Написать менеджеру</button></div></div>
+  </div></section>
+</main>
+
+<!-- ==================== СВИЯЖСК ==================== -->
+<main class="page" id="p-sviyazhsk">
+  <div class="phero"><div class="wrap phero-grid">
+    <div>
+      <div class="crumbs"><a href="#/">Главная</a> / Экскурсии по Свияжску</div>
+      <span class="eyebrow">Свияжск</span>
+      <h1>Экскурсии по Свияжску</h1>
+      <p class="sub">Крепость, построенная в 1551 году за четыре недели. Панорамные виды, древние монастыри и прижизненный портрет Ивана Грозного.</p>
+      <div class="hero-cta"><button class="btn btn-blue" data-book="Свияжск">Забронировать онлайн</button><button class="btn btn-line" data-contact>Связаться</button></div>
+    </div>
+    <div class="ph k4" data-label="Фото: Свияжск"></div>
+  </div></div>
+
+  <section><div class="wrap">
+    <span class="eyebrow">Программы</span>
+    <h2>Что посмотреть</h2>
+    <div class="prices" style="grid-template-columns:1fr 1fr">
+      <div class="pr"><h3>Обзорная экскурсия</h3><p class="muted"><span class="todo">Программа и длительность</span></p><span class="big">от <span class="todo">X XXX</span> ₽</span><button class="btn btn-blue" data-book="Свияжск · обзорная">Забронировать</button></div>
+      <div class="pr hl"><h3>Экскурсии в музеях</h3><p class="muted"><span class="todo">Под вопросом — какие музеи</span></p><span class="big">от <span class="todo">X XXX</span> ₽</span><button class="btn btn-orange" data-book="Свияжск · музеи">Забронировать</button></div>
+    </div>
+  </div></section>
+
+  <section style="padding-top:0"><div class="wrap">
+    <span class="eyebrow">Доп. опции</span>
+    <h2>Добавьте к экскурсии</h2>
+    <div class="grid4">
+      <div class="card"><div class="ph k4" data-label="Фото" style="height:140px"></div><h3><span class="todo">Мастер-класс</span></h3><div class="meta"><span><span class="todo">~1 ч</span></span><span><span class="todo">возраст</span></span></div><span class="price">от <span class="todo">…</span> ₽</span></div>
+      <div class="card"><div class="ph k5" data-label="Фото" style="height:140px"></div><h3><span class="todo">Активность</span></h3><div class="meta"><span><span class="todo">~1 ч</span></span><span><span class="todo">возраст</span></span></div><span class="price">от <span class="todo">…</span> ₽</span></div>
+      <div class="card"><div class="ph k2" data-label="Фото" style="height:140px"></div><h3>Обед</h3><div class="meta"><span>порция</span></div><span class="price">от <span class="todo">…</span> ₽</span></div>
+      <div class="card"><div class="ph k1" data-label="Фото" style="height:140px"></div><h3>Трансфер из Казани</h3><div class="meta"><span><span class="todo">уточнить</span></span></div><span class="price">от <span class="todo">…</span> ₽</span></div>
+    </div>
+    <div class="group-strip"><div><h3 style="font-size:20px">Хотите добавить что-то ещё?</h3><p>Напишите менеджеру — соберём программу под вас</p></div><button class="btn btn-orange" data-contact>Написать менеджеру</button></div>
+  </div></section>
+
+  <!-- ТУРЫ (Свияжск) -->
+  <section id="tours" style="padding-top:0"><div class="wrap">
+    <span class="eyebrow">Туры</span>
+    <h2>Туры в Свияжск</h2>
+    <div class="tours5">
+      <div class="card"><div class="ph k1" data-label="Фото"></div><h3>Тур <span class="todo">название</span></h3><p class="muted"><span class="todo">Описание</span></p><span class="price">от <span class="todo">X XXX</span> ₽</span><button class="btn btn-blue" data-book="Тур в Свияжск">Подробнее</button></div>
+      <div class="card"><div class="ph k2" data-label="Фото"></div><h3>Тур <span class="todo">название</span></h3><p class="muted"><span class="todo">Описание</span></p><span class="price">от <span class="todo">X XXX</span> ₽</span><button class="btn btn-blue" data-book="Тур в Свияжск">Подробнее</button></div>
+      <div class="card"><div class="ph k3" data-label="Фото"></div><h3>Тур <span class="todo">название</span></h3><p class="muted"><span class="todo">Описание</span></p><span class="price">от <span class="todo">X XXX</span> ₽</span><button class="btn btn-blue" data-book="Тур в Свияжск">Подробнее</button></div>
+      <div class="card"><div class="ph k4" data-label="Фото"></div><h3>Тур <span class="todo">название</span></h3><p class="muted"><span class="todo">Описание</span></p><span class="price">от <span class="todo">X XXX</span> ₽</span><button class="btn btn-blue" data-book="Тур в Свияжск">Подробнее</button></div>
+      <div class="card"><div class="ph k5" data-label="Фото"></div><h3>Тур <span class="todo">название</span></h3><p class="muted"><span class="todo">Описание</span></p><span class="price">от <span class="todo">X XXX</span> ₽</span><button class="btn btn-blue" data-book="Тур в Свияжск">Подробнее</button></div>
+    </div>
+    <div class="custom" style="margin-top:24px">
+      <div>
+        <h2>Составим индивидуальный тур по запросу</h2>
+        <p style="opacity:.85;margin-top:14px;max-width:560px">Расскажите о группе, датах и пожеланиях — соберём программу с трансфером, проживанием и питанием.</p>
+      </div>
+      <div><button class="btn btn-white" data-book="Индивидуальный тур">Собрать тур</button></div>
+    </div>
+  </div></section>
+
+
+</main>
+
+<!-- ==================== АГЕНТСТВАМ ==================== -->
+<main class="page" id="p-agencies">
+  <div class="phero"><div class="wrap phero-grid">
+    <div>
+      <div class="crumbs"><a href="#/">Главная</a> / Агентствам</div>
+      <span class="eyebrow">Партнёрам</span>
+      <h1>Условия для агентств</h1>
+      <p class="sub">Принимаем организованные группы в Иннополисе, Казани и Свияжске. Работаем официально как туроператор.</p>
+      <div class="hero-cta"><a class="btn btn-blue" href="#/agencies#agency-form">Стать партнёром</a></div>
+      <span class="badge">Реестровый номер: B031-00161-00/03404932</span>
+    </div>
+    <div class="ph k3" data-label="Фото"></div>
+  </div></div>
+
+  <section><div class="wrap">
+    <span class="eyebrow">Условия <span class="todo" style="text-transform:none;letter-spacing:0">в ТЗ не описаны</span></span>
+    <h2>Как мы работаем</h2>
+    <div class="grid4">
+      <div class="card"><span class="price" style="margin:0"><span class="todo">XX%</span></span><h3>Комиссия</h3></div>
+      <div class="card"><span class="price" style="margin:0"><span class="todo">от …</span></span><h3>Размер группы</h3></div>
+      <div class="card"><span class="price" style="margin:0"><span class="todo">…</span></span><h3>Оплата</h3></div>
+      <div class="card"><span class="price" style="margin:0"><span class="todo">…</span></span><h3>Отмена</h3></div>
+    </div>
+  </div></section>
+
+  <section id="agency-form" style="padding-top:0"><div class="wrap">
+    <div class="form-card" style="max-width:720px;margin:0 auto">
+      <span class="eyebrow">Заявка на сотрудничество</span>
+      <h3>Оставьте данные агентства</h3>
+      <form data-form>
+        <input placeholder="Название агентства или школы" required>
+        <div class="row2"><input placeholder="Контактное лицо" required><input type="tel" placeholder="Телефон" required></div>
+        <div class="row2"><input type="email" placeholder="Email"><input placeholder="ИНН"></div>
+        <label class="check"><input type="checkbox" checked required>Я согласен(а) с <a href="#">политикой конфиденциальности</a></label>
+        <button class="btn btn-orange" type="submit">Отправить</button>
+      </form>
+    </div>
+  </div></section>
+</main>
+
+<footer id="contacts">
+  <div class="wrap">
+    <div class="ft">
+      <div>
+        <a href="#/" class="logo" style="color:#fff;margin-bottom:18px"><i></i>Innotravel</a>
+        <a class="phone-big" href="tel:+79600484460">+7 960 048-44-60</a>
+        <p>Ежедневно 9:00–18:00</p>
+        <a href="mailto:innotravel@mail.ru">innotravel@mail.ru</a>
+        <a href="https://t.me/innotravel">tg: @innotravel</a>
+      </div>
+      <div><h4>Экскурсии</h4><a href="#/innopolis">По Иннополису</a><a href="#/kazan">По Казани</a><a href="#/sviyazhsk">По Свияжску</a></div>
+      <div><h4>Ещё</h4><a href="#/#options">Доп. опции</a><a href="#/#reviews">Отзывы</a><a href="#/agencies">Агентствам</a></div>
+      <div><h4>Мы на связи</h4><a href="https://t.me/innotravel">Telegram</a><a href="#">Max</a><a href="https://wa.me/79600484460">WhatsApp</a><a href="https://vk.com/innotravel">ВКонтакте</a></div>
+    </div>
+    <div class="ft-bottom"><span>© Innotravel · Реестровый номер туроператора B031-00161-00/03404932</span><a href="#">Политика конфиденциальности</a></div>
+  </div>
+</footer>
+
+<div class="modal" id="modal">
+  <div class="modal-box">
+    <button class="x" data-close>×</button>
+    <span class="eyebrow" id="m-eye">Бронирование</span>
+    <h3 style="font-size:24px" id="m-title">Забронировать экскурсию</h3>
+    <p class="muted" style="margin-top:6px">Напишите в мессенджер или оставьте номер — перезвоним</p>
+    <div class="socials" style="margin-top:14px">
+      <a class="soc" href="https://t.me/innotravel"><b style="background:#2aabee"></b>Telegram</a>
+      <a class="soc" href="#"><b style="background:#7b4dff"></b>Max</a>
+      <a class="soc" href="https://wa.me/79600484460"><b style="background:#25d366"></b>WhatsApp</a>
+      <a class="soc" href="https://vk.com/innotravel"><b style="background:#0077ff"></b>VK</a>
+      <a class="soc" href="tel:+79600484460"><b style="background:var(--orange)"></b>Позвонить</a>
+    </div>
+    <form data-form>
+      <input placeholder="Ваше имя" required>
+      <input type="tel" placeholder="Телефон" required>
+      <input type="date" id="m-date">
+      <label class="check"><input type="checkbox" checked required>Я согласен(а) с <a href="#">политикой конфиденциальности</a></label>
+      <button class="btn btn-blue" type="submit">Отправить</button>
+    </form>
+  </div>
+</div>
+
+<div class="draft">ЧЕРНОВИК</div>
+
+<script>
+function route(){
+  const h=location.hash.replace(/^#\/?/,'');
+  const [path,anchor]=h.split('#');
+  const map={'':'p-home','innopolis':'p-innopolis','kazan':'p-kazan','sviyazhsk':'p-sviyazhsk','agencies':'p-agencies'};
+  const id=map[path]||'p-home';
+  document.querySelectorAll('.page').forEach(p=>p.classList.toggle('on',p.id===id));
+  document.querySelectorAll('nav.main a[data-nav]').forEach(a=>{
+    const n=a.dataset.nav;
+    a.classList.toggle('on',(n==='excursions'&&['kazan','innopolis','sviyazhsk'].includes(path))||n===path);
+  });
+  document.getElementById('nav').classList.remove('open');
+  if(anchor){const el=document.getElementById(anchor);if(el){setTimeout(()=>el.scrollIntoView({behavior:'smooth'}),30);return}}
+  window.scrollTo(0,0);
+}
+addEventListener('hashchange',route);route();
+document.getElementById('burger').onclick=()=>document.getElementById('nav').classList.toggle('open');
+
+const modal=document.getElementById('modal');
+document.addEventListener('click',e=>{
+  const b=e.target.closest('[data-book]'), c=e.target.closest('[data-contact]');
+  if(b){e.preventDefault();const t=b.dataset.book;
+    document.getElementById('m-eye').textContent='Бронирование';
+    document.getElementById('m-title').textContent=t?t:'Забронировать экскурсию';
+    document.getElementById('m-date').style.display='';modal.classList.add('open')}
+  if(c){e.preventDefault();
+    document.getElementById('m-eye').textContent='Связаться';
+    document.getElementById('m-title').textContent='Мы на связи 9:00–18:00';
+    document.getElementById('m-date').style.display='none';modal.classList.add('open')}
+  if(e.target.matches('[data-close]')||e.target===modal)modal.classList.remove('open');
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')modal.classList.remove('open')});
+document.querySelectorAll('form[data-form]').forEach(f=>f.addEventListener('submit',e=>{
+  e.preventDefault();const btn=f.querySelector('button[type=submit]');const t=btn.textContent;
+  btn.textContent='Спасибо! Перезвоним ✓';btn.disabled=true;
+  setTimeout(()=>{btn.textContent=t;btn.disabled=false;f.reset();modal.classList.remove('open')},1800);
+}));
+</script>
+</body>
+</html>
